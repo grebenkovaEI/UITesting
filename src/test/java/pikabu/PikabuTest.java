@@ -1,5 +1,6 @@
 package pikabu;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+@Slf4j
 public class PikabuTest {
 
     WebDriver driver;
