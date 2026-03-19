@@ -1,4 +1,4 @@
-package pobeda;
+package ru.stepup.pobeda;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
