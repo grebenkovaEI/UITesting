@@ -21,6 +21,8 @@ public class PobedaTest {
     MainPage mainPage;
     PopupInfo popupInfo;
     TicketSearch ticketSearch;
+    BookingManage bookingManage;
+    ErrorPage errorPage;
 
     @BeforeEach
     void setUp() {
@@ -34,6 +36,8 @@ public class PobedaTest {
         mainPage = new MainPage(driver);
         popupInfo = new PopupInfo(driver);
         ticketSearch = new TicketSearch(driver);
+        bookingManage = new BookingManage(driver);
+        errorPage = new ErrorPage(driver);
 
         //1. Перейти на сайт pobeda.aero.
         driver.get("https://www.flypobeda.ru/");
@@ -61,6 +65,13 @@ public class PobedaTest {
     @Test
     @DisplayName("Тест №2. Инициирование поиска")
     void ticketSearchTest() {
+        //2. Убедиться, что сайт открылся:
+        //а) текст заголовка страницы: Авиакомпания «Победа» - купить билеты на самолёт дешево онлайн, прямые и трансферные рейсы;
+        Assertions.assertEquals("Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками", mainPage.getMainTitle());
+
+        //б) на странице есть логотип Победы.
+        Assertions.assertTrue(mainPage.logoVisability(), "Логотип не отображен");
+
         //3. Проскроллить страницу к блоку поиска билета и убедиться, что блок с поиском билета действительно отображается
         // (есть поле Откуда, Куда, Дата вылета Туда, Дата вылета Обратно)
         ticketSearch.scrollToSearchBlock();
@@ -81,6 +92,43 @@ public class PobedaTest {
         String borderColor = ticketSearch.getFailDataBorderColor();
         //System.out.println(borderColor);
         Assertions.assertTrue(borderColor.contains("rgb(213, 0, 98)") || borderColor.contains("rgba(213, 0, 98, 1)"));
+    }
+
+    @Test
+    @DisplayName("Тест №3. Результаты поиска")
+    void searchResultsTest() {
+        //2. Убедиться, что сайт открылся:
+        //а) текст заголовка страницы: Авиакомпания «Победа» - купить билеты на самолёт дешево онлайн, прямые и трансферные рейсы;
+        Assertions.assertEquals("Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками", mainPage.getMainTitle());
+
+        //б) на странице есть логотип Победы.
+        Assertions.assertTrue(mainPage.logoVisability(), "Логотип не отображен");
+
+        //3. Проскроллить страницу чуть ниже и кликнуть на пункт «Управление бронированием».
+        bookingManage.scrollToManageBlock();
+        bookingManage.clickButtonBookingManage();
+
+        //4. Убедиться, что открылась необходимая страница:
+        //а) есть поле «Номер заказа или билета»;
+        Assertions.assertTrue(bookingManage.isTicketOrOrderNumberVisible());
+        //б) есть поле «Фамилия клиента»;
+        Assertions.assertTrue(bookingManage.isClientSurnameVisible());
+        //в) есть кнопка «Поиск».
+        Assertions.assertTrue(bookingManage.isButtonSearchVisible());
+
+        String window = driver.getWindowHandle(); //запоминаем текущую вкладку
+
+        //5. Ввести в поля ввода данные:
+        //номер заказа – XXXXXX, фамилия – Qwerty
+        //и нажать кнопку «Поиск».
+        bookingManage.fillSearchForm("123456", "Qwerty");
+        bookingManage.clickButtonSearch();
+
+        //6. Убедиться, что в новой вкладке на экране отображается текст ошибки «Заказ с указанными параметрами не найден».
+        errorPage.switchToNewTab(window);
+        errorPage.clickCheckbox();
+        errorPage.clickSearchButton();
+        Assertions.assertEquals("Заказ с указанными параметрами не найден", errorPage.getErrorText());
     }
 
     @AfterEach
