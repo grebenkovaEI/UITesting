@@ -20,6 +20,7 @@ public class PobedaTest {
     WebDriverWait wait;
     MainPage mainPage;
     PopupInfo popupInfo;
+    TicketSearch ticketSearch;
 
     @BeforeEach
     void setUp() {
@@ -32,6 +33,7 @@ public class PobedaTest {
 
         mainPage = new MainPage(driver);
         popupInfo = new PopupInfo(driver);
+        ticketSearch = new TicketSearch(driver);
 
         //1. Перейти на сайт pobeda.aero.
         driver.get("https://www.flypobeda.ru/");
@@ -54,7 +56,31 @@ public class PobedaTest {
         Assertions.assertTrue(popupInfo.isInfoFlightVisible());
         Assertions.assertTrue(popupInfo.isInfoUsefulVisible());
         Assertions.assertTrue(popupInfo.isInfoCompanyVisible());
+    }
 
+    @Test
+    @DisplayName("Тест №2. Инициирование поиска")
+    void ticketSearchTest() {
+        //3. Проскроллить страницу к блоку поиска билета и убедиться, что блок с поиском билета действительно отображается
+        // (есть поле Откуда, Куда, Дата вылета Туда, Дата вылета Обратно)
+        ticketSearch.scrollToSearchBlock();
+        Assertions.assertTrue(ticketSearch.isPlaceFromVisible());
+        Assertions.assertTrue(ticketSearch.isPlaceToVisible());
+        Assertions.assertTrue(ticketSearch.isDateFromVisible());
+        Assertions.assertTrue(ticketSearch.isDateToVisible());
+
+        //4. Выбрать (или ввести) следующие критерии поиска:
+        //откуда – Москва (без выбора аэропорта) + нажать Enter
+        //куда – Санкт-Петербург + нажать Enter.
+        ticketSearch.fillSearchForm("Москва", "Санкт-Петербург");
+
+        //5. Нажать кнопку «Поиск».
+        ticketSearch.clickSearchButton();
+
+        //6. Убедиться, что около поля «Туда» появилась красная обводка.
+        String borderColor = ticketSearch.getFailDataBorderColor();
+        //System.out.println(borderColor);
+        Assertions.assertTrue(borderColor.contains("rgb(213, 0, 98)") || borderColor.contains("rgba(213, 0, 98, 1)"));
     }
 
     @AfterEach
