@@ -37,7 +37,4 @@ public class MainPage {
         Actions actions = new Actions(driver);
         actions.moveToElement(info).perform();
     }
-
-
-
 }
