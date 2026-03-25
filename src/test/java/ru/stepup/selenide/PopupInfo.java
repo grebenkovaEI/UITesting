@@ -2,7 +2,8 @@ package ru.stepup.selenide;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
+import ru.testit.annotations.Step;
+
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -15,17 +16,17 @@ public class PopupInfo {
     public PopupInfo() {
     }
 
-    @Step("Проверка видимости заголовка «Подготовка к полету»")
+    @Step
     public boolean isInfoFlightVisible() {
         return infoFlight.is(Condition.visible);
     }
 
-    @Step("Проверка видимости заголовка «Полезная информация»")
+    @Step
     public boolean isInfoUsefulVisible() {
         return infoUseful.is(Condition.visible);
     }
 
-    @Step("Проверка видимости заголовка «О компании»")
+    @Step
     public boolean isInfoCompanyVisible() {
         return infoCompany.is(Condition.visible);
     }

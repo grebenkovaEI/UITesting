@@ -3,7 +3,7 @@ package ru.stepup.selenide;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
+import ru.testit.annotations.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -16,17 +16,17 @@ public class MainPage {
     public MainPage() {
     }
 
-    @Step("Получение заголовка страницы")
+    @Step
     public String getMainTitle() {
         return Selenide.title();
     }
 
-    @Step("Проверка видимости логотипа")
+    @Step
     public boolean logoVisibility() {
         return logo.is(Condition.visible);
     }
 
-    @Step("Наведение мышки на пункт «Информация»")
+    @Step
     public void hoverInfoMenu() {
         info.shouldBe(Condition.visible).hover();
     }

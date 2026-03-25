@@ -2,7 +2,7 @@ package ru.stepup.selenide;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
+import ru.testit.annotations.Step;
 
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -19,32 +19,32 @@ public class TicketSearch {
     public TicketSearch() {
     }
 
-    @Step("Проверка видимости поля Откуда")
+    @Step
     public boolean isPlaceFromVisible() {
         return placeFrom.is(Condition.visible);
     }
 
-    @Step("Проверка видимости поля Куда")
+    @Step
     public boolean isPlaceToVisible() {
         return placeTo.is(Condition.visible);
     }
 
-    @Step("Проверка видимости поля Дата вылета Туда")
+    @Step
     public boolean isDateFromVisible() {
         return dateFrom.is(Condition.visible);
     }
 
-    @Step("Проверка видимости поля Дата вылета Обратно")
+    @Step
     public boolean isDateToVisible() {
         return dateTo.is(Condition.visible);
     }
 
-    @Step("Скролл к блоку поиска билета")
+    @Step
     public void scrollToSearchBlock() {
         placeFrom.scrollTo();
     }
 
-    @Step("Заполнение формы поиска билета: откуда - {from}, куда - {to}")
+    @Step
     public void fillSearchForm(String from, String to) {
         placeFrom.shouldBe(Condition.visible).setValue(from);
         placeFromSuggest.shouldBe(Condition.visible).click();
@@ -52,12 +52,12 @@ public class TicketSearch {
         placeToSuggest.shouldBe(Condition.visible).click();
     }
 
-    @Step("Нажатие кнопки поиска")
+    @Step
     public void clickSearchButton() {
         searchButton.click();
     }
 
-    @Step("Получение значения обводки поля «Туда»")
+    @Step
     public String getFailDataBorderColor() {
         failedDataField.shouldHave(Condition.cssValue("border-bottom-color", "rgba(213, 0, 98, 1)"));
         return failedDataField.getCssValue("border-bottom-color");

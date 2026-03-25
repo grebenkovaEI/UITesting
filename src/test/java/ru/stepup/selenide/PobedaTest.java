@@ -2,16 +2,16 @@ package ru.stepup.selenide;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import ru.testit.annotations.Description;
+import ru.testit.annotations.Step;
+import ru.testit.annotations.Title;
+
 import static com.codeborne.selenide.Selenide.open;
 
 @Slf4j
-@Epic("Авиакомпания «Победа»")
+@Description("Тестирование сайта авиакомпании «Победа»")
 public class PobedaTest {
     ru.stepup.selenide.MainPage mainPage;
     PopupInfo popupInfo;
@@ -20,7 +20,7 @@ public class PobedaTest {
     ru.stepup.selenide.ErrorPage errorPage;
 
     @BeforeEach
-    @Step("Настройка тестового окружения, открытие браузера")
+    @Step
     void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:/Users/ekolyshkina/Desktop/chromedriver-win64/chromedriver.exe");
         Configuration.pageLoadTimeout = 30000;
@@ -38,7 +38,8 @@ public class PobedaTest {
     }
 
     @Test
-    @Feature("Тест №1. Всплывающее окно")
+    @Title("Тест №1. Всплывающее окно")
+    @DisplayName("Тест №1. Всплывающее окно")
     @Description("Проверка открытия сайта и появления всплывающего окна с заголовками: «Подготовка к полету», " +
             "«Полезная информация», «О компании» при наведении на пункт «Информация»")
     void popupTest() {
@@ -57,7 +58,8 @@ public class PobedaTest {
     }
 
     @Test
-    @Feature("Тест №2. Инициирование поиска")
+    @Title("Тест №2. Инициирование поиска")
+    @DisplayName("Тест №2. Инициирование поиска")
     @Description("Проверка открытия сайта и отображения блока поиска билетов. Инициирование поиска. Проверка появления " +
             "красной обводки при попытке поиска с незаполненным полем «Туда»")
     void ticketSearchTest() {
@@ -86,7 +88,8 @@ public class PobedaTest {
     }
 
     @Test
-    @Feature("Тест №3. Результаты поиска")
+    @Title("Тест №3. Результаты поиска")
+    @DisplayName("Тест №3. Результаты поиска")
     @Description("Проверка открытия сайта и отображения полей в блоке «Управление бронированием». Поиск по номеру " +
             "заказа и фамилии клиента. Проверка отображения ошибки в новой вкладке при неуспешном поиске")
     void searchResultsTest() {
@@ -119,7 +122,8 @@ public class PobedaTest {
     }
 
     @Test
-    @Feature("Тест №4. Непроходящий тест")
+    @Title("Тест №4. Непроходящий тест")
+    @DisplayName("Тест №4. Непроходящий тест")
     @Description("Тест, который упадет на проверке видимости заголовка «Подготовка к полету»")
     void errorTest() {
         Assertions.assertEquals("Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками",
@@ -130,7 +134,7 @@ public class PobedaTest {
     }
 
     @AfterEach
-    @Step("Закрытие браузера")
+    @Step
     public void tearDown() {
         Selenide.closeWebDriver();
     }
